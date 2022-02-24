@@ -1,4 +1,4 @@
-const { mapErrorsMessage } = require('../helpers');
+const { mapErrorsMessage } = require('../helpers/common-helper');
 const { BadRequest, Unauthorized } = require('../utils/http-exception');
 
 function errorHandlerMiddleware(error, req, res, next) {

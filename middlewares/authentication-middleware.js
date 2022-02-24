@@ -1,7 +1,7 @@
 const { User } = require('../models');
 const { verifyToken } = require('../helpers/jwt-helper');
 const { Unauthorized } = require('../utils/http-exception');
-const { extractBearerToken } = require('../helpers');
+const { extractBearerToken } = require('../helpers/common-helper');
 
 async function authenticationMiddleware(req, res, next) {
   try {
