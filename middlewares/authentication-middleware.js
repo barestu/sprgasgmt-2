@@ -1,16 +1,17 @@
 const { User } = require('../models');
 const { verifyToken } = require('../helpers/jwt-helper');
 const { Unauthorized } = require('../utils/http-exception');
+const { extractBearerToken } = require('../helpers');
 
 async function authenticationMiddleware(req, res, next) {
   try {
     const { authorization } = req.headers;
+    const token = extractBearerToken(authorization);
 
-    if (!authorization || !authorization.startsWith('Bearer ')) {
+    if (!token) {
       throw new Unauthorized();
     }
 
-    const token = authorization.substring(7, authorization.length);
     const { email } = verifyToken(token);
     const user = await User.findOne({ where: { email } });
 
