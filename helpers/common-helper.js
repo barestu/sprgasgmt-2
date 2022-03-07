@@ -9,3 +9,12 @@ exports.extractBearerToken = (value) => {
 exports.mapErrorsMessage = (errors) => {
   return errors.map((e) => e.message);
 };
+
+exports.validateDate = (value) => {
+  const timestamp = Date.parse(value);
+  if (isNaN(timestamp) === false && timestamp > 0) {
+    return true;
+  } else {
+    return false;
+  }
+};

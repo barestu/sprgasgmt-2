@@ -2,7 +2,7 @@ const { mapErrorsMessage } = require('../helpers/common-helper');
 const { BadRequest, Unauthorized } = require('../utils/http-exception');
 
 function errorHandlerMiddleware(error, req, res, next) {
-  const stackTrace = error;
+  const stackTrace = process.env.NODE_ENV !== 'production' ? error : null;
 
   if (error.name === 'SequelizeUniqueConstraintError') {
     error = new BadRequest(mapErrorsMessage(error.errors));

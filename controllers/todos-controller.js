@@ -1,5 +1,6 @@
+const { validateDate } = require('../helpers/common-helper');
 const { Todo, User } = require('../models');
-const { NotFound } = require('../utils/http-exception');
+const { NotFound, BadRequest } = require('../utils/http-exception');
 
 class TodosController {
   static async findAll(req, res, next) {
@@ -32,10 +33,12 @@ class TodosController {
   static async create(req, res, next) {
     const { title, description, due_date } = req.body;
     try {
+      const validDate = validateDate(due_date);
+      if (!validDate) throw new BadRequest('Invalid date');
       const todo = await Todo.create({
         title,
         description,
-        due_date,
+        due_date: new Date(due_date),
         UserId: req.user.id,
       });
       res.status(201).json(todo);

@@ -1,5 +1,6 @@
 'use strict';
 const { Model } = require('sequelize');
+const { BadRequest } = require('../utils/http-exception');
 module.exports = (sequelize, DataTypes) => {
   class Todo extends Model {
     /**
@@ -34,6 +35,13 @@ module.exports = (sequelize, DataTypes) => {
         validate: {
           notNull: { msg: 'due_date is required' },
           notEmpty: { msg: 'due_date is required' },
+          isDateNotYetPassed(value) {
+            const today = new Date();
+            const yesterday = today.setDate(today.getDate() - 1);
+            if (value < yesterday) {
+              throw new BadRequest('due date already passed)');
+            }
+          },
         },
       },
     },
