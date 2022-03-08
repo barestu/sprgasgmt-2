@@ -1,0 +1,7 @@
+const app = require('../app');
+const port = process.env.PORT || 5000;
+const env = process.env.NODE_ENV;
+
+app.listen(port, function () {
+  console.log(`Running for ${env} on port ${port}`);
+});

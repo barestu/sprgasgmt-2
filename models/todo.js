@@ -39,7 +39,7 @@ module.exports = (sequelize, DataTypes) => {
             const today = new Date();
             const yesterday = today.setDate(today.getDate() - 1);
             if (value < yesterday) {
-              throw new BadRequest('due date already passed)');
+              throw new BadRequest('due date already passed');
             }
           },
         },

@@ -20,14 +20,15 @@ class AuthController {
   }
 
   static async login(req, res, next) {
-    const { email = '', password = '' } = req.body;
+    const { email, password } = req.body;
     try {
+      if (!email || !password) throw new BadRequest('Invalid credentials');
       const user = await User.findOne({ where: { email } });
       if (!user) throw new BadRequest('Invalid credentials');
       const isPasswordMatch = compare(password, user.password);
       if (!isPasswordMatch) throw new BadRequest('Invalid credentials');
       const accessToken = signToken({ id: user.id, email: user.email });
-      res.status(201).json({ accessToken });
+      res.status(200).json({ accessToken });
     } catch (error) {
       next(error);
     }
